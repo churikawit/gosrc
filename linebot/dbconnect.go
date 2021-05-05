@@ -64,7 +64,6 @@ func GetIntentStage(user_id string, bot_id int) string {
 		}
 		return s
 	}
-
 	return ""
 }
 
@@ -74,5 +73,16 @@ func SetIntentStage(user_id string, bot_id int, intent string) {
 
 	queryString := "update register_user set intent_stage=$3 where user_id=$1 and bot_id=$2"
 	var reader *sql.DataReader = Conn.Query(queryString, string(user_id), bot_id, intent)
+	defer reader.Close()
+}
+
+func LogEvent(source_type, source_userid, source_groupid, source_roomid string, bot_id int, event_type, event_body string) {
+	Conn.OpenConnection()
+	defer Conn.CloseConnection()
+
+	queryString := `insert into log_event(source_type, source_userid, source_groupid, source_roomid,
+		bot_id, event_type, event_body) values ($1,$2,$3,$4,$5,$6,$7)`
+	var reader *sql.DataReader = Conn.Query(queryString, source_type, source_userid, source_groupid,
+		source_roomid, bot_id, event_type, event_body)
 	defer reader.Close()
 }
