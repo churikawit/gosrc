@@ -48,13 +48,16 @@ func CreateDataReader(rows *sql.Rows) *DataReader {
 		case "BOOL":
 			reader.vals[i] = new(sql.NullBool)
 		case "INT":
-			reader.vals[i] = new(sql.NullInt32)
+			// reader.vals[i] = new(sql.NullInt32)
+			reader.vals[i] = new(sql.NullInt64)
 		case "INT8":
-			reader.vals[i] = new(sql.NullInt32)
+			// reader.vals[i] = new(sql.NullInt32)
+			reader.vals[i] = new(sql.NullInt64)
 		case "BIGINT":
 			reader.vals[i] = new(sql.NullInt64)
 		case "DATE":
-			reader.vals[i] = new(sql.NullTime)
+			// reader.vals[i] = new(sql.NullTime)
+			reader.vals[i] = new(sql.NullString)
 		default:
 			reader.vals[i] = new(sql.NullString)
 		}
@@ -133,11 +136,13 @@ func (dr *DataReader) GetValue2(i int) interface{} {
 			return s2.Bool
 		}
 		return nil
-	case *sql.NullTime:
-		if s2.Valid {
-			return s2.Time
-		}
-		return nil
+	/*
+		case *sql.NullTime:
+			if s2.Valid {
+				return s2.Time
+			}
+			return nil
+	*/
 	case *sql.NullString:
 		if s2.Valid {
 			return s2.String
@@ -145,11 +150,13 @@ func (dr *DataReader) GetValue2(i int) interface{} {
 		}
 		return nil
 
-	case *sql.NullInt32:
-		if s2.Valid {
-			return s2.Int32
-		}
-		return nil
+	/*
+		case *sql.NullInt32:
+			if s2.Valid {
+				return s2.Int32
+			}
+			return nil
+	*/
 
 	case *sql.NullInt64:
 		if s2.Valid {
@@ -197,22 +204,26 @@ func (dr *DataReader) IsNull(i int) bool {
 			return false
 		}
 		return true
-	case *sql.NullTime:
-		if s2.Valid {
-			return false
-		}
-		return true
+	/*
+		case *sql.NullTime:
+			if s2.Valid {
+				return false
+			}
+			return true
+	*/
 	case *sql.NullString:
 		if s2.Valid {
 			return false
 		}
 		return true
 
-	case *sql.NullInt32:
-		if s2.Valid {
-			return false
-		}
-		return true
+	/*
+		case *sql.NullInt32:
+			if s2.Valid {
+				return false
+			}
+			return true
+	*/
 
 	case *sql.NullInt64:
 		if s2.Valid {
