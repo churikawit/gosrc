@@ -29,7 +29,7 @@ func RegisterUser(user_id string, bot_id int, display_name, picture_url, status_
 
 	reader.Read()
 	datacell := reader.GetValue2(0)
-	s, ok := datacell.(int32)
+	s, ok := datacell.(int64)
 	if !ok {
 		fmt.Printf("RegisterUser: get count(*) error\n")
 	}
